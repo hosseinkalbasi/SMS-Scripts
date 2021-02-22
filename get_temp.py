@@ -2,6 +2,7 @@ import time
 import serial
 import subprocess
 from curses import ascii
+# import re
 
 # An example script that shows how to receive an SMS message containing 'get_temp' and
 # then respond by sending an SMS message back to the requesting number containing
@@ -22,8 +23,21 @@ try:
         phone.write(b'AT+CMGL="ALL"\r')  # read all stored messages
         data = phone.readall()
         # print(data)
+        
+        
 
         CMGLs = data.split("+CMGL:")
+   
+# alternative approach: using regex
+#         for cmgl in CMGLs:
+
+#                 cmgl_text = "".join(cmgl.splitlines())
+#                 text_search = re.findall(r'(\d+),"(.*)","(.*)","(.*)","(.*)"(.*)', cmgl_text)
+
+#                 for result in text_search:
+#                     num, read_status, fr, to, dtime, content = result
+#                     message = {'subject': f"({num}) {read_status} - from {fr} - {dtime}", 'text': content}
+                    
         print("CMGLs length = " + str(len(CMGLs)))
         for cmgl in CMGLs:
             num = ""
